@@ -52,15 +52,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .formLogin()
+                .loginPage("/homeLogin")
+                .loginProcessingUrl("/authentication/form")
+                .and()
                 .authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/oauth/**","/homeLogin","/authentication/form")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
+                .csrf().disable()//跨域关闭
         ;
     }
 
