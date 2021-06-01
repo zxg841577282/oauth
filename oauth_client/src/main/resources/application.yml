@@ -1,6 +1,9 @@
 server:
   port: 1001
 
+noLogin:
+  loginUrl: https://www.baidu.com
+
 spring:
   redis:
     database: 1

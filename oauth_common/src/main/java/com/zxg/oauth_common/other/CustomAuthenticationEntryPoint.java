@@ -1,6 +1,7 @@
 package com.zxg.oauth_common.other;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,8 @@ import java.io.IOException;
  * @date 2020/09/01
  **/
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    @Value("${noLogin.loginUrl}")
+    private String serverUrl;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {
@@ -46,6 +49,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 response.getWriter().write(JSON.toJSONString(R.error("未经授权的客户端")));
             }else {
                 response.getWriter().write(JSON.toJSONString(R.error(401,"缺失信息")));
+                response.setHeader("refresh","3;"+serverUrl);
             }
         }
     }
