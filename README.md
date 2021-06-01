@@ -2,13 +2,16 @@ v1版本：
 
 
 └── oauth_auth
+
     ├── config      认证服务器相关配置信息
     ├── other       自定义异常输出
     └── service     继承UserDetailsService的实现
 └── oauth_client
+
     ├── config      资源服务器相关配置信息
     └── controller  测试控制器
 └── oauth_common
+
     ├── dao         dao层
     ├── data        实体类层(包括入参和反参模型,个人喜好这样写)
     │     ├── dto
