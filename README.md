@@ -32,6 +32,7 @@ springboot  |   mybatis-plus    |   oauth2          ｜   redis
 认证端目前实现授权码模式和密码模式，其结果生成的access_token，在资源端请求头部中带上即可访问。
 
 密码模式流程:(以postman为例)
+
 由于本次认证默认PasswordEncoder方式为NoOpPasswordEncoder模式(即不加密方式)，
 因此都以明文方式传递password和client_secret
 
