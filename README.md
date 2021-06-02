@@ -53,3 +53,6 @@ springboot  |   mybatis-plus    |   oauth2          ｜   redis
 
 7.打开postman测试手机号+验证码效果,grant_type选择为phone，参数password改为sms_code，如图
 ![img.png](other/img3.png)
+
+
+关于资源端如何验证token的正确性，请前往V1分支的readme.me查看
