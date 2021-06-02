@@ -1,5 +1,6 @@
 package com.zxg.oauth_auth.config;
 
+import com.zxg.oauth_auth.other.provider.MobileProvider;
 import com.zxg.oauth_auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.annotation.Resource;
+
 
 /**
  * @Author: zhou_xg
@@ -25,6 +28,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
+    @Resource
+    private MobileProvider phoneSmsProvider;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -68,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
+        auth.authenticationProvider(phoneSmsProvider);
     }
 
 }

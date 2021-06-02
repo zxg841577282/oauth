@@ -3,6 +3,7 @@ package com.zxg.oauth_auth.config;
 
 import com.zxg.oauth_auth.other.CustomClientCredentialsTokenEndpointFilter;
 import com.zxg.oauth_auth.other.CustomWebResponseExceptionTranslator;
+import com.zxg.oauth_auth.other.TokenGranter.MobileCustomTokenGranter;
 import com.zxg.oauth_auth.service.UserService;
 import com.zxg.oauth_common.other.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +98,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //授权码模式
                 new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService, requestFactory),
                 //刷新token模式
-                new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory)
+                new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory),
+                //手机模式
+                new MobileCustomTokenGranter(tokenServices, clientDetailsService, requestFactory,authenticationManager)
         ));
     }
 

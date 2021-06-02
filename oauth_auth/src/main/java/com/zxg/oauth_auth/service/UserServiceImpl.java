@@ -39,5 +39,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public MyUserDetails loadUserByMobile(String mobile) {
 
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getMobile, mobile));
+        if (ObjectUtil.isEmpty(user)){
+            throw new RuntimeException("用户不存在");
+        }
+
+        //获取用户权限
+        List<String> authList = new ArrayList<>();
+
+        return new MyUserDetails(user,authList);
+    }
 }
