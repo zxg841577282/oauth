@@ -60,5 +60,8 @@ springboot  |   mybatis-plus    |   oauth2          ｜   redis
 
 
 其中资源端如何验证token是否正确？
-此处使用远程连接认证服务器进行验证，打开认证服务器配置，在最下面的方法中开启远程验证，如图
+方式一:使用远程连接认证服务器进行验证，打开认证服务器配置，在最下面的方法中开启远程验证，如图
 ![img.png](other/img7.png)
+
+方式二:使用相应的tokenStore进行校验，打开资源服务器配置，在如图方法中添加对应tokenStore
+![img.png](other/img8.png)

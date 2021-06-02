@@ -109,8 +109,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 客户端认证之前的过滤器
         oauthServer.addTokenEndpointAuthenticationFilter(endpointFilter);
 
-        //开启远程调用认证服务验证Token
-        oauthServer.checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();
+//        //开启远程调用认证服务验证Token
+//        oauthServer.checkTokenAccess("isAuthenticated()").allowFormAuthenticationForClients();
     }
 
 }
