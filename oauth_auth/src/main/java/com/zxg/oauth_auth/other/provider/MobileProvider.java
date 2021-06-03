@@ -4,7 +4,7 @@ import com.zxg.oauth_auth.service.UserService;
 import com.zxg.oauth_common.data.vo.MyUserDetails;
 import com.zxg.oauth_common.other.token.MobileAuthenticationToken;
 import com.zxg.oauth_common.data.constant.TokenConstant;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationProvider;

@@ -1,6 +1,7 @@
 package com.zxg.oauth_auth.config;
 
 import com.zxg.oauth_auth.other.provider.MobileProvider;
+import com.zxg.oauth_auth.other.provider.ThirdProvider;
 import com.zxg.oauth_auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
     @Resource
     private MobileProvider phoneSmsProvider;
+    @Resource
+    private ThirdProvider thirdProvider;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -57,14 +60,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .authorizeRequests()
+                .antMatchers("/oauth/**","/homeLogin","/authentication/form","/third/**")
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/homeLogin")
                 .loginProcessingUrl("/authentication/form")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/oauth/**","/homeLogin","/authentication/form")
-                .permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .csrf().disable()//跨域关闭
         ;
@@ -74,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
         auth.authenticationProvider(phoneSmsProvider);
+        auth.authenticationProvider(thirdProvider);
     }
 
 }

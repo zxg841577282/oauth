@@ -23,6 +23,13 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!--justAuth-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.16.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>
