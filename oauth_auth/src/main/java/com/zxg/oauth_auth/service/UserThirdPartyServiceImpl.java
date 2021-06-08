@@ -116,5 +116,15 @@ public class UserThirdPartyServiceImpl implements UserThirdPartyService {
         }
     }
 
+    @Override
+    public void save(UserThirdParty thirdUser) {
+        userThirdPartyMapper.insert(thirdUser);
+    }
 
+    @Override
+    public UserThirdParty getThirdUserByOpenId(String openid) {
+        return userThirdPartyMapper.selectOne(new LambdaQueryWrapper<UserThirdParty>()
+                .eq(UserThirdParty::getOpenId,openid)
+        );
+    }
 }

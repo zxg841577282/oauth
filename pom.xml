@@ -19,6 +19,7 @@
         <module>oauth_auth</module>
         <module>oauth_client</module>
         <module>oauth_common</module>
+        <module>oauth_wx_client</module>
     </modules>
 
     <properties>

@@ -4,6 +4,7 @@ import com.zxg.oauth_auth.service.LoginServer;
 import com.zxg.oauth_auth.service.UserThirdPartyService;
 import com.zxg.oauth_auth.web.dto.BuildUserDTO;
 import com.zxg.oauth_auth.web.dto.LoginDTO;
+import com.zxg.oauth_auth.web.dto.WxLoginDTO;
 import com.zxg.oauth_common.data.constant.InfoConstant;
 import com.zxg.oauth_common.data.vo.LoginSuccessVO;
 import com.zxg.oauth_common.other.R;
@@ -38,6 +39,17 @@ public class LoginController {
     @PostMapping("/currencyLogin")
     private R currencyLogin(@RequestBody LoginDTO dto){
         LoginSuccessVO vo = loginServer.currencyLogin(dto);
+
+        if (vo.getSuccess()){
+            return R.ok(vo);
+        }else {
+            return R.error(vo.getCode(),vo.getErrorInfo());
+        }
+    }
+
+    @PostMapping("/wxClientLogin")
+    private R wxClientLogin(@RequestBody WxLoginDTO wxLoginDTO){
+        LoginSuccessVO vo = loginServer.wxClientLogin(wxLoginDTO);
 
         if (vo.getSuccess()){
             return R.ok(vo);

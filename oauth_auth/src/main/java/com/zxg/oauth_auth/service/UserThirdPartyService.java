@@ -40,4 +40,14 @@ public interface UserThirdPartyService {
      * 判断账户
      */
     void check(String thirdId);
+
+    /**
+     * 新增
+     */
+    void save(UserThirdParty thirdUser);
+
+    /**
+     * 微信openid查询
+     */
+    UserThirdParty getThirdUserByOpenId(String openid);
 }

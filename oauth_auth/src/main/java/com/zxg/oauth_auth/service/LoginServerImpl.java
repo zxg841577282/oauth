@@ -3,6 +3,7 @@ package com.zxg.oauth_auth.service;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.zxg.oauth_auth.web.dto.LoginDTO;
+import com.zxg.oauth_auth.web.dto.WxLoginDTO;
 import com.zxg.oauth_common.data.vo.LoginSuccessVO;
 import com.zxg.oauth_common.data.vo.MyUserDetails;
 import org.apache.commons.lang.StringUtils;
@@ -55,6 +56,24 @@ public class LoginServerImpl implements LoginServer {
 
         return vo;
     }
+
+    @Override
+    public LoginSuccessVO wxClientLogin(WxLoginDTO wxLoginDTO) {
+
+        LoginSuccessVO vo = jsCodeLogin(wxLoginDTO);
+
+        if (vo.getSuccess()){
+            OAuth2Authentication oAuth2Authentication = redisTokenStore.readAuthentication(vo.getAccess_token());
+
+            MyUserDetails loginUserVO = (MyUserDetails) oAuth2Authentication.getUserAuthentication().getPrincipal();
+
+            vo.setUserId(loginUserVO.getUserId());
+        }
+
+        return vo;
+    }
+
+
 
     @Value("${oauth.get_token_url}")
     private String getTokenUrl;
@@ -127,7 +146,27 @@ public class LoginServerImpl implements LoginServer {
         return build(HttpUtil.get(url));
     }
 
+    private LoginSuccessVO jsCodeLogin(WxLoginDTO wxLoginDTO) {
+        String url = getTokenUrl +
+                "jscode=JSCODE&" +
+                "encryptedData=ENCRYPTEDDATA&" +
+                "iv=IV&" +
+                "grant_type=wxmini&" +
+                "scope=SCOPE&" +
+                "client_id=CLIENTID&" +
+                "client_secret=CLIENTSECRET"
+                ;
 
+        url = url.replace("JSCODE",wxLoginDTO.getCode())
+                .replace("ENCRYPTEDDATA",wxLoginDTO.getEncryptedData())
+                .replace("IV",wxLoginDTO.getIv())
+                .replace("SCOPE",scopo)
+                .replace("CLIENTID",clientId)
+                .replace("CLIENTSECRET",clientSecret)
+        ;
+
+        return build(HttpUtil.get(url));
+    }
 
     /**
      * 请求返回数据封装为LoginSuccessVO对象

@@ -7,8 +7,8 @@
         <artifactId>oauth</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>oauth_auth</artifactId>
-    <name>oauth_auth</name>
+    <artifactId>oauth_wx_client</artifactId>
+    <name>oauth_wx_client</name>
 
     <dependencies>
 
@@ -18,24 +18,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <!--justAuth-->
-        <dependency>
-            <groupId>me.zhyd.oauth</groupId>
-            <artifactId>JustAuth</artifactId>
-            <version>1.16.1</version>
-        </dependency>
-
-        <!--微信小程序-->
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-            <version>4.1.0</version>
-        </dependency>
 
     </dependencies>
 

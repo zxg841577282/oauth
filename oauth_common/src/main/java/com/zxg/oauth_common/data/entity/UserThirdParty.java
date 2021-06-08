@@ -30,4 +30,6 @@ public class UserThirdParty {
     private String accessToken;
     private String refreshToken;
 
+    private String openId;
+
 }

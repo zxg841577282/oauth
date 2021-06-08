@@ -1,7 +1,10 @@
 package com.zxg.oauth_auth.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zxg.oauth_auth.web.vo.WxBackVO;
 import com.zxg.oauth_common.dao.UserMapper;
 import com.zxg.oauth_common.data.entity.User;
 import com.zxg.oauth_common.data.entity.UserThirdParty;
@@ -10,6 +13,7 @@ import com.zxg.oauth_common.other.Asserts;
 import me.zhyd.oauth.model.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -80,6 +84,41 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectById(thirdUser.getUserId());
 
         Asserts.fail(ObjectUtil.isEmpty(user),"用户不存在");
+
+        return getUserVO(user);
+    }
+
+    @Override
+    public MyUserDetails loadUserByWxMiniBack(WxBackVO login) {
+        //根据openid查询是否存在绑定关系
+        UserThirdParty thirdUser = userThirdPartyService.getThirdUserByOpenId(login.getResult().getOpenid());
+
+        User user = null;
+
+        if (ObjectUtil.isEmpty(thirdUser)){
+
+            WxMaUserInfo userInfo = login.getUserInfo();
+            user = new User();
+
+            user.setUsername(login.getMobile());
+            user.setMobile(login.getMobile());
+            user.setNickname(userInfo.getNickName());
+            user.setGender(userInfo.getGender());
+            user.setAvatar(userInfo.getAvatarUrl());
+            //默认密码为123456
+            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            userMapper.insert(user);
+
+            thirdUser = new UserThirdParty();
+
+            thirdUser.setUserId(user.getId());
+            thirdUser.setTypes("wxMini");
+            thirdUser.setOpenId(login.getResult().getOpenid());
+
+            userThirdPartyService.save(thirdUser);
+        }else {
+            user = userMapper.selectById(thirdUser.getUserId());
+        }
 
         return getUserVO(user);
     }

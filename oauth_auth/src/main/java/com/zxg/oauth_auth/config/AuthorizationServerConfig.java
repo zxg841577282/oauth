@@ -5,6 +5,7 @@ import com.zxg.oauth_auth.other.CustomClientCredentialsTokenEndpointFilter;
 import com.zxg.oauth_auth.other.CustomWebResponseExceptionTranslator;
 import com.zxg.oauth_auth.other.TokenGranter.MobileCustomTokenGranter;
 import com.zxg.oauth_auth.other.TokenGranter.ThirdCustomTokenGranter;
+import com.zxg.oauth_auth.other.TokenGranter.WxMiniCustomTokenGranter;
 import com.zxg.oauth_auth.service.UserService;
 import com.zxg.oauth_common.other.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,7 +110,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //手机模式
                 new MobileCustomTokenGranter(tokenServices, clientDetailsService, requestFactory,authenticationManager),
                 //第三方模式
-                new ThirdCustomTokenGranter(tokenServices, clientDetailsService, requestFactory,authenticationManager)
+                new ThirdCustomTokenGranter(tokenServices, clientDetailsService, requestFactory,authenticationManager),
+                //微信小程序模式
+                new WxMiniCustomTokenGranter(tokenServices, clientDetailsService, requestFactory,authenticationManager)
         ));
     }
 
