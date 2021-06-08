@@ -30,4 +30,14 @@ public interface UserThirdPartyService {
      * 更新
      */
     boolean update(UserThirdParty thirdUser);
+
+    /**
+     * 绑定第三方账户
+     */
+    boolean buildUser(Long userId, String thirdId);
+
+    /**
+     * 判断账户
+     */
+    void check(String thirdId);
 }

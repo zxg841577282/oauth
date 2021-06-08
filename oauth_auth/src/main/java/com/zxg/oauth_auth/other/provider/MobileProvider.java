@@ -1,6 +1,7 @@
 package com.zxg.oauth_auth.other.provider;
 
 import com.zxg.oauth_auth.service.UserService;
+import com.zxg.oauth_common.data.constant.InfoConstant;
 import com.zxg.oauth_common.data.vo.MyUserDetails;
 import com.zxg.oauth_common.other.token.MobileAuthenticationToken;
 import com.zxg.oauth_common.data.constant.TokenConstant;
@@ -35,7 +36,7 @@ public class MobileProvider implements AuthenticationProvider {
 
         //若验证码不为空 则以验证码模式
         if (StringUtils.isNotBlank(accountLoginToken.getSmsCode())) {
-            String redisCode = stringRedisTemplate.opsForValue().get(TokenConstant.SMS_CODE_REDIS_PREFIX + accountLoginToken.getPrincipal());
+            String redisCode = stringRedisTemplate.opsForValue().get(InfoConstant.SMS_CODE_REDIS_PREFIX + accountLoginToken.getPrincipal());
             if ( redisCode != null) {
                 if (!redisCode.equalsIgnoreCase(accountLoginToken.getSmsCode())) {
                     throw new BadCredentialsException("验证码不正确");

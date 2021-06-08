@@ -70,6 +70,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.withClientDetails(clientDetails());
     }
 
+    @Bean
+    public RedisTokenStore redisTokenStore(){
+        return new RedisTokenStore(redisConnectionFactory);
+    }
+
+
     /**
      * 认证服务端点配置
      */

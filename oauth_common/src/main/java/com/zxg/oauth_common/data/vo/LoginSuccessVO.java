@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 /**
  * @Author: zhou_xg
  * @Date: 2021/5/10
@@ -18,12 +20,20 @@ public class LoginSuccessVO {
     private String refresh_token;
     private int expires_in;
     private String scope;
+
+    //第三方id
+    private String thirdId;
+
+    private Boolean needBuild = false;
+
     @JsonIgnore
     private String message;
     @JsonIgnore
     private String msg;
     @JsonIgnore
     private Integer code;
+    @JsonIgnore
+    private Long userId;
 
     @JsonIgnore
     public String getErrorInfo(){

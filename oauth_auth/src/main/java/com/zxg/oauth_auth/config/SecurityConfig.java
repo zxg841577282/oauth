@@ -1,6 +1,7 @@
 package com.zxg.oauth_auth.config;
 
 import com.zxg.oauth_auth.other.provider.MobileProvider;
+import com.zxg.oauth_auth.other.provider.MyDaoAuthenticationProvider;
 import com.zxg.oauth_auth.other.provider.ThirdProvider;
 import com.zxg.oauth_auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
@@ -33,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MobileProvider phoneSmsProvider;
     @Resource
     private ThirdProvider thirdProvider;
+    @Resource
+    private MyDaoAuthenticationProvider myDaoAuthenticationProvider;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -53,24 +56,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 通过HttpSecurity实现Security的自定义过滤配置
-     *
-     * @param httpSecurity
      * @throws Exception
      */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/oauth/**","/homeLogin","/authentication/form","/third/**")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/homeLogin")
-                .loginProcessingUrl("/authentication/form")
-                .and()
-                .csrf().disable()//跨域关闭
+                .antMatchers(noAuthUrl()).permitAll()       //此类url不拦截
+                .anyRequest().authenticated()               //全部拦截
         ;
+    }
+
+    /**
+     * 设置不拦截前缀
+     */
+    private String[] noAuthUrl(){
+        return new String[]{
+                "/oauth/**",        //oauth原有接口
+                "/currencyLogin",   //通用登录接口
+                "/buildUser",       //绑定第三方账户接口
+                "/getLoginSmsCode", //获取登录验证码接口
+                "/third/**"         //第三方登录接口
+        };
     }
 
     @Override
@@ -78,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService);
         auth.authenticationProvider(phoneSmsProvider);
         auth.authenticationProvider(thirdProvider);
+        auth.authenticationProvider(myDaoAuthenticationProvider);
     }
 
 }

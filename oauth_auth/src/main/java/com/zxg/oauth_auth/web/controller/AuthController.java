@@ -1,4 +1,4 @@
-package com.zxg.oauth_auth.controller;
+package com.zxg.oauth_auth.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

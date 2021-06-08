@@ -36,6 +36,7 @@ ThirdProvider，ThirdCustomTokenGranter，ThirdAuthenticationToken
 在AuthorizationServerConfig的getTokenGranters添加第三方登录模式
 在SecurityConfig的configure中添加ThirdProvider依赖
 
+
 第三方登录接入流程(个人理解，有错误欢迎文明指出)
 访问/third/render/gitee (此处以gitee为例，其他平台同理)
 
@@ -53,3 +54,9 @@ ThirdProvider，ThirdCustomTokenGranter，ThirdAuthenticationToken
 
 
 关于资源端如何验证token的正确性，请前往V1分支的readme.me查看
+
+
+
+2021/06/08 更新
+登录流程总览
+![other/登录系统流程图.png](other/登录系统流程图.png)

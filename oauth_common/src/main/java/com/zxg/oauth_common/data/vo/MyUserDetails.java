@@ -17,6 +17,8 @@ import java.util.List;
  */
 @Data
 public class MyUserDetails implements UserDetails {
+
+    private Long userId;
     /**
      * 用户名
      */
@@ -50,6 +52,7 @@ public class MyUserDetails implements UserDetails {
         this.password = user.getPassword();
         this.status = user.getStatus();
         this.isDelete = user.getIsDelete();
+        this.userId = user.getId();
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         for (String s : authList) {

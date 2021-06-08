@@ -1,4 +1,4 @@
-package com.zxg.oauth_auth.controller;
+package com.zxg.oauth_auth.web.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
@@ -15,6 +15,7 @@ import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,6 +110,10 @@ public class ThirdController {
         }
     }
 
+
+    @Value("${oauth.base_address}")
+    private String baseAddress;
+
     /**
      * 获取授权Request
      *
@@ -120,7 +125,7 @@ public class ThirdController {
         AuthConfig build = AuthConfig.builder()
                 .clientId(ocd.getClientId())
                 .clientSecret(ocd.getClientSecret())
-                .redirectUri(ocd.getWebServerRedirectUri())
+                .redirectUri(baseAddress + ocd.getWebServerRedirectUri())
                 .build();
 
         AuthDefaultRequest defaultRequest = null;

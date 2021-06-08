@@ -4,8 +4,8 @@ server:
 
 spring:
   redis:
-    database: 1
-    host: 127.0.0.1
+    database: 3
+    host: 192.168.2.169
     port: 6379
     password:
     jedis:
@@ -31,9 +31,9 @@ spring:
       connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
       connection-test-query: SELECT 1
     #JDBC基本配置
-    url: jdbc:mysql://localhost:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.2.169:3306/user_center?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
     username: root
-    password: 123456
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   thymeleaf:
@@ -45,3 +45,9 @@ spring:
     #content-type: text/html
     mode: HTML5
 
+oauth:
+  base_address: http://localhost:1000
+  get_token_url: ${oauth.base_address}/oauth/token?
+  scopo: all
+  clientId: xlm
+  clientSecret: $2a$10$REQ4KGHvWyvVhisMuTXTbOwIOnf2nn/6I7NVCkuTGuOqisLnYm2R2

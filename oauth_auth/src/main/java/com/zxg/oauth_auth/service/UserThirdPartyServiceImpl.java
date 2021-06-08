@@ -1,5 +1,6 @@
 package com.zxg.oauth_auth.service;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -92,4 +93,28 @@ public class UserThirdPartyServiceImpl implements UserThirdPartyService {
     public boolean update(UserThirdParty thirdUser) {
         return userThirdPartyMapper.updateById(thirdUser) > 0;
     }
+
+
+    @Override
+    public boolean buildUser(Long userId, String thirdId) {
+        UserThirdParty userThirdParty = userThirdPartyMapper.selectById(thirdId);
+        userThirdParty.setUserId(userId);
+        return userThirdPartyMapper.updateById(userThirdParty) > 0;
+    }
+
+    @Override
+    public void check(String thirdId) {
+
+        UserThirdParty userThirdParty = userThirdPartyMapper.selectById(thirdId);
+
+        if (ObjectUtil.isEmpty(userThirdParty)){
+            throw new RuntimeException("第三方账户不存在");
+        }
+
+        if (ObjectUtil.isNotEmpty(userThirdParty.getUserId())){
+            throw new RuntimeException("第三方账户已关联账户");
+        }
+    }
+
+
 }
