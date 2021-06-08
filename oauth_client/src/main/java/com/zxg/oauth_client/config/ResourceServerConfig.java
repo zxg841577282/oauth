@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private static final String RESOURCE_IDS = "zxg_client1";
+    private static final String RESOURCE_IDS = "order2";
 
     @Autowired
     RedisConnectionFactory redisConnectionFactory;

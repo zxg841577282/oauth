@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.*;
@@ -47,9 +48,17 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 response.getWriter().write(JSON.toJSONString(R.error("无效的类型")));
             } else if (cause instanceof UnauthorizedClientException) {
                 response.getWriter().write(JSON.toJSONString(R.error("未经授权的客户端")));
+            } else if (throwable instanceof InsufficientAuthenticationException) {
+                String message = throwable.getMessage();
+                if (message.contains("Invalid token does not contain resource id")){
+                    response.getWriter().write(JSON.toJSONString(R.error("未经授权的资源服务器")));
+                }else if (message.contains("Full authentication is required to access this resource")){
+                    response.getWriter().write(JSON.toJSONString(R.error("缺少验证信息")));
+                }
             }else {
-                response.getWriter().write(JSON.toJSONString(R.error(401,"缺失信息")));
-                response.setHeader("refresh","3;"+serverUrl);
+                response.getWriter().write(JSON.toJSONString(R.error(401,"验证异常")));
+//                //跳转至登录页面
+//                response.setHeader("refresh","3;"+serverUrl);
             }
         }
     }
